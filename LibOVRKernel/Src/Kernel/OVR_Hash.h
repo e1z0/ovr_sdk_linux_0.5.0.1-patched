@@ -1014,6 +1014,7 @@ struct HashNode
 
     // Note: No default constructor is necessary.
      HashNode(const HashNode& src) : First(src.First), Second(src.Second)    { }
+    HashNode& operator = (const HashNode& src)                               { First = src.First; Second = src.Second; return *this; }
      HashNode(const NodeRef& src) : First(*src.pFirst), Second(*src.pSecond)  { }
     void operator = (const NodeRef& src)  { First  = *src.pFirst; Second = *src.pSecond; }
 

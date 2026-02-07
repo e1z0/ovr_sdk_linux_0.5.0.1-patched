@@ -664,7 +664,8 @@ public:
 	{
 		uint16_t l = (uint16_t) OVR_strlen(inStringVar);
 		Write(l);
-		WriteAlignedBytes((const unsigned char*) inStringVar, (const unsigned int) l);
+		//WriteAlignedBytes((const unsigned char*) inStringVar, (const unsigned int) l);
+		WriteAlignedBytes((const unsigned char*) inStringVar, (unsigned int)l);
 	}
 	inline void Write(const unsigned char * const inTemplateVar)
 	{
@@ -1044,14 +1045,16 @@ inline void BitStream::Write(const OVR::String &inTemplateVar)
 {
 	uint16_t l = (uint16_t) inTemplateVar.GetLength();
 	Write(l);
-	WriteAlignedBytes((const unsigned char*) inTemplateVar.ToCStr(), (const unsigned int) l);
+	//WriteAlignedBytes((const unsigned char*) inTemplateVar.ToCStr(), (const unsigned int) l);
+        WriteAlignedBytes((const unsigned char*) inTemplateVar.ToCStr(), (unsigned int)l);
 }
 template <>
 inline void BitStream::Write(const char * const &inStringVar)
 {
 	uint16_t l = (uint16_t) strlen(inStringVar);
 	Write(l);
-	WriteAlignedBytes((const unsigned char*) inStringVar, (const unsigned int) l);
+	//WriteAlignedBytes((const unsigned char*) inStringVar, (const unsigned int) l);
+        WriteAlignedBytes((const unsigned char*) inStringVar, (unsigned int)l);
 }
 template <>
 inline void BitStream::Write(const unsigned char * const &inTemplateVar)

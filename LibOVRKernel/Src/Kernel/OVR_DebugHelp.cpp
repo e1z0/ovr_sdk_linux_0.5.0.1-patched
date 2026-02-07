@@ -111,7 +111,7 @@ limitations under the License.
     #include "sys/stat.h"
 #if defined(OVR_OS_ANDROID)
     #include <linux/sysctl.h>
-#else
+#elif defined(OVR_OS_BSD)
     #include <sys/sysctl.h>
 #endif
     #include <sys/utsname.h>
@@ -630,6 +630,9 @@ OVR::ThreadSysId GetCurrentThreadSysId()
 
 static void GetCurrentProcessFilePath(char* appPath, size_t appPathCapacity)
 {
+    if (!appPath || appPathCapacity == 0)
+        return;
+
     appPath[0] = 0;
 
     #if defined(OVR_OS_MS)
@@ -926,8 +929,15 @@ void CreateException(CreateExceptionType exceptionType)
             size_t size = (sizeof(buffer) * 16) - (rand() % 16);
             char*  pOutsizeStack = buffer - ((sizeof(buffer) * 16) + (rand() % 16));
 
+#if defined(__clang__) || defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#endif
             memset(buffer, 0, size);
             memset(pOutsizeStack, 0, size); // This line should generate an exception, or an exception will be generated upon return from this function.
+#if defined(__clang__) || defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
             break;
         }
 

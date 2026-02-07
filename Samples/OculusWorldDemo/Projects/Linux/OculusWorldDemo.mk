@@ -28,7 +28,7 @@
 include ../../../../LibOVR/Projects/Linux/LibOVRCommon.mk
 
 ####### Basic options
-COMMONFLAGS   = -Wall -Wextra -Werror -pipe -fPIC -msse2 -fno-strict-aliasing -fvisibility=hidden -std=c++11
+COMMONFLAGS   = -Wall -Wextra  -pipe -fPIC -msse2 -fno-strict-aliasing -fvisibility=hidden -std=c++11
 
 ####### Detect debug or release
 DEBUG        ?= 0

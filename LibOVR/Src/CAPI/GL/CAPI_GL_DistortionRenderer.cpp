@@ -489,9 +489,12 @@ bool DistortionRenderer::initBuffersAndShaders()
             // Previous code here did this: pCurVBVert->TanEyeAnglesR = (*(Vector2f*)&pCurOvrVert->TanEyeAnglesR); However that's an usafe
             // cast of unrelated types which can result in undefined behavior by a conforming compiler. A safe equivalent is simply memcpy.
             static_assert(sizeof(OVR::Vector2f) == sizeof(ovrVector2f), "Mismatch of structs that are presumed binary equivalents.");
-            memcpy(&pCurVBVert->TanEyeAnglesR, &pCurOvrVert->TanEyeAnglesR, sizeof(pCurVBVert->TanEyeAnglesR));
-            memcpy(&pCurVBVert->TanEyeAnglesG, &pCurOvrVert->TanEyeAnglesG, sizeof(pCurVBVert->TanEyeAnglesG));
-            memcpy(&pCurVBVert->TanEyeAnglesB, &pCurOvrVert->TanEyeAnglesB, sizeof(pCurVBVert->TanEyeAnglesB));
+            pCurVBVert->TanEyeAnglesR.x = pCurOvrVert->TanEyeAnglesR.x;
+            pCurVBVert->TanEyeAnglesR.y = pCurOvrVert->TanEyeAnglesR.y;
+            pCurVBVert->TanEyeAnglesG.x = pCurOvrVert->TanEyeAnglesG.x;
+            pCurVBVert->TanEyeAnglesG.y = pCurOvrVert->TanEyeAnglesG.y;
+            pCurVBVert->TanEyeAnglesB.x = pCurOvrVert->TanEyeAnglesB.x;
+            pCurVBVert->TanEyeAnglesB.y = pCurOvrVert->TanEyeAnglesB.y;
 
             // Convert [0.0f,1.0f] to [0,255]
 			if (RenderState->DistortionCaps & ovrDistortionCap_Vignette)
@@ -553,9 +556,13 @@ void DistortionRenderer::renderDistortion(Texture* leftEyeTexture, Texture* righ
     setViewport( Recti(0,0, RParams.BackBufferSize.w, RParams.BackBufferSize.h) );
 
 	if (RenderState->DistortionCaps & ovrDistortionCap_SRGB)
+    {
 		glEnable(GL_FRAMEBUFFER_SRGB);
+    }
     else
+    {
         glDisable(GL_FRAMEBUFFER_SRGB);
+    }
 
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);

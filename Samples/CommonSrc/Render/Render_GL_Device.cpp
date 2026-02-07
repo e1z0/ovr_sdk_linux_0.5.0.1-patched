@@ -924,7 +924,11 @@ void RenderDevice::Render(const Fill* fill, Render::Buffer* vertices, Render::Bu
     if (shaders->ProjLoc >= 0)
         glUniformMatrix4fv(shaders->ProjLoc, 1, 0, &Proj.M[0][0]);
     if (shaders->ViewLoc >= 0)
-        glUniformMatrix4fv(shaders->ViewLoc, 1, 0, &matrix.Transposed().M[0][0]);
+    {
+        //glUniformMatrix4fv(shaders->ViewLoc, 1, 0, &matrix.Transposed().M[0][0]);
+        OVR::Matrix4f mt = matrix.Transposed();
+        glUniformMatrix4fv(shaders->ViewLoc, 1, 0, &mt.M[0][0]);
+    }
 
     if (shaders->UsesLighting && Lighting->Version != shaders->LightingVer)
     {

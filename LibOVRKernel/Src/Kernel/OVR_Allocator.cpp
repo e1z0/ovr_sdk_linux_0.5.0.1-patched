@@ -111,9 +111,16 @@ void* DefaultAllocator::Realloc(void* p, size_t newSize)
     // This used to more efficiently check if (newp != p) but static analyzers were erroneously flagging this.
     if(newP) // Need to check newP because realloc doesn't free p unless it returns a valid newP.
     {
-        #if !defined(__clang_analyzer__)  // The analyzer complains that we are using p after it was freed.
-            untrackAlloc(p);
+#if !defined(__clang_analyzer__)  // The analyzer complains that we are using p after it was freed.
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wuse-after-free"
         #endif
+            untrackAlloc(p);
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic pop
+        #endif
+#endif
     }
     trackAlloc(newP, newSize);
     return newP;
@@ -551,7 +558,14 @@ void* DebugPageAllocator::Realloc(void* p, size_t newSize)
         if(newP) // Need to check newP because realloc doesn't free p unless it returns a valid newP.
         {
             #if !defined(__clang_analyzer__) // The analyzer complains that we are using p after it was freed.
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wuse-after-free"
+        #endif
                 untrackAlloc(p);
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic pop
+        #endif
             #endif
         }
         trackAlloc(newP, newSize);

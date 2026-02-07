@@ -103,12 +103,14 @@ public:
 
     static void CopyArrayForward(T* dst, const T* src, size_t count)
     {
-        memmove(dst, src, count * sizeof(T));
+        for (size_t i = 0; i < count; ++i)
+            dst[i] = src[i];
     }
 
     static void CopyArrayBackward(T* dst, const T* src, size_t count)
     {
-        memmove(dst, src, count * sizeof(T));
+        for (size_t i = count; i > 0; --i)
+            dst[i - 1] = src[i - 1];
     }
 
     static bool IsMovable()
@@ -177,12 +179,14 @@ public:
 
     static void CopyArrayForward(T* dst, const T* src, size_t count)
     {
-        memmove(dst, src, count * sizeof(T));
+        for (size_t i = 0; i < count; ++i)
+            dst[i] = src[i];
     }
 
     static void CopyArrayBackward(T* dst, const T* src, size_t count)
     {
-        memmove(dst, src, count * sizeof(T));
+        for (size_t i = count; i > 0; --i)
+            dst[i - 1] = src[i - 1];
     }
 
     static bool IsMovable()

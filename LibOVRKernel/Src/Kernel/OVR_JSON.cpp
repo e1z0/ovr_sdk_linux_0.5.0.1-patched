@@ -358,16 +358,14 @@ const char* JSON::parseString(const char* str, const char** perror)
                     
                     ptr2+=len;
                     
-                    switch (len)
                     {
-                        case 4: *--ptr2 =((uc | 0x80) & 0xBF); uc >>= 6;
-                            //no break, fall through
-                        case 3: *--ptr2 =((uc | 0x80) & 0xBF); uc >>= 6;
-                            //no break
-                        case 2: *--ptr2 =((uc | 0x80) & 0xBF); uc >>= 6;
-                            //no break
-                        case 1: *--ptr2 = (char)(uc | firstByteMark[len]);
-                            //no break
+                        int byteCount = len;
+                        for (int i = byteCount; i > 1; --i)
+                        {
+                            *--ptr2 = (char)((uc | 0x80) & 0xBF);
+                            uc >>= 6;
+                        }
+                        *--ptr2 = (char)(uc | firstByteMark[byteCount]);
                     }
                     ptr2+=len;
                     break;

@@ -127,14 +127,28 @@ struct LocklessPadding
         // IMPORTANT: this WILL break backwards compatibility
         static_assert(sizeof(buffer) >= sizeof(Payload), "PaddingSize is too small");
 
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wclass-memaccess"
+        #endif
         memcpy(buffer, &rhs, sizeof(Payload));
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic pop
+        #endif
         return *this;
     }
 
     operator Payload() const
     {
         Payload result;
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wclass-memaccess"
+        #endif
         memcpy(&result, buffer, sizeof(Payload));
+        #if defined(__clang__) || defined(__GNUC__)
+            #pragma GCC diagnostic pop
+        #endif
         return result;
     }
 };

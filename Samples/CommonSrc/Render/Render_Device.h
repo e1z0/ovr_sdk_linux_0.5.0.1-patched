@@ -321,7 +321,7 @@ public:
                  if(stage == Shader_Pixel)      return Textures[i];
             else if(stage == Shader_Vertex)     return VtxTextures[i];
             else if(stage == Shader_Compute)    return CsTextures[i];
-            else OVR_ASSERT(false);             return 0;
+            else { OVR_ASSERT(false); }             return 0;
         }
         else
         {

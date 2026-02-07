@@ -1685,6 +1685,7 @@ public:
         : Rotation(orientation), Translation(pos) {  }
     Pose(const Pose& s)
         : Rotation(s.Rotation), Translation(s.Translation) {  }
+    Pose& operator = (const Pose& s)                       { Rotation = s.Rotation; Translation = s.Translation; return *this; }
     Pose(const Matrix3<T>& R, const Vector3<T>& t)
         : Rotation((Quat<T>)R), Translation(t) {  }
     Pose(const CompatibleType& s)

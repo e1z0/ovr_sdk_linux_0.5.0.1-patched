@@ -294,7 +294,12 @@ public:
 		Shutter.FirstScanlineToLastScanline = 0.0f;
 		Shutter.PixelSettleTime = 0.0f;
 		Shutter.PixelPersistence = 0.0f;
-    }
+	}
+
+	HMDInfo(const HMDInfo& src)
+	{
+		*this = src;
+	}
 
 	// Operator = copies local fields only (base class must be correct already)
 	void operator=(const HMDInfo& src)

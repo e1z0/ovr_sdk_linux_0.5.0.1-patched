@@ -914,7 +914,7 @@ void    Thread::YieldCurrentThread()
   #elif defined(OVR_OS_ANDROID)
     sched_yield();
 	#else // Linux
-		pthread_yield();
+		sched_yield();
 	#endif
 }
 
